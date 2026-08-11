@@ -1,23 +1,23 @@
 /* ==================================================================
-   EMERGE_SOUND — Final Sound System V4 engine (e22, void swells at the button)
+   EMERGE_SOUND — Final Sound System V4 engine (e23, whisper home)
    ------------------------------------------------------------------
    Sonic law (locked): low-register, physical, dark, restrained, dry,
    spatial. No pitch sweeps. Movement expressed via gain / density /
    stereo only. Relative WAV levels are preserved — every cue plays
    at gain 1.0; the master limiter exists strictly to guard against
    stacking, never to reshape a single cue.
-   e21: the void is the JOURNEY bed — from the chart-choice click through
-   the whole chart drawing, ending only at REVEAL MY CHART, where the
-   ambient field takes over for good. Void lowered slightly (01c, -11.9
-   peak, more in the background). Location-found cue (09) removed — its
-   call sites are silent no-ops.
-   e20: the void returns for ONE moment — the reveal waiting screen
-   ('the sky has always been here / tap to reveal') plays 01b as its bed;
-   pages can set window.EMERGE_HOLD_AMBIENT so the field waits until the
-   tap, then void fades and the field takes over. drawbed stays retired.
-   e19: void bed + drawbed RETIRED per Jason — the ambient field is the
-   one bed everywhere; their cue names remain as silent no-ops so no call
-   site ever throws.
+   e23: startLoop accepts a level — the ambient field returns a step
+   louder (1.4) at REVEAL MY CHART so the reading music is clearly
+   audible. The index no longer whispers or carries the void; each
+   reveal page owns its whole opening (whisper -> tap to reveal ->
+   drawing) so there is nothing left for the page turn to chop.
+   e21: the void is the JOURNEY bed on the reveal pages — from the
+   page's first touch through the whole chart drawing, ending only at
+   REVEAL MY CHART, where the ambient field takes over for good.
+   Void at 01c (-11.9 peak, more in the background). Location-found
+   cue (09) removed — its call sites are silent no-ops.
+   e19: the ambient field is the one bed everywhere else; retired cue
+   names remain as silent no-ops so no call site ever throws.
    e18: continuous ambient field (UNCLE_JOHN_FIELD_LOOP, seamless 43.5s,
    peak -14.1) auto-starts with audio on every page, loops under all cues,
    survives scene handoffs; everything else plays over it.
@@ -34,7 +34,7 @@
 
   var FILES = {
     ambient:      'UNCLE_JOHN_FIELD_LOOP.wav',  /* continuous quiet field under everything */
-    voidatm:      '01c_void_atmosphere.wav',     /* the journey bed — choice click through the chart drawing (slightly lowered) */
+    voidatm:      '01c_void_atmosphere.wav',     /* the journey bed — reveal-page first touch through the chart drawing */
     fold:         '03d_vacuum_fold.wav',
     tap:          '23_tap_boom.wav',    /* single boom — the tap is one soft pulse */
     growth:       '06_earth_growth_no_rising_tone.wav',
@@ -55,7 +55,7 @@
   var DUCKS   = { harmony:1, arrival:1, impact:1, fold:1, ascension:1 };
 
   var AUDIO_VER = '16';
-  var ENGINE_VER = '22';   /* bump on ANY wav content change — defeats stale wav caching */
+  var ENGINE_VER = '23';   /* bump on ANY wav content change — defeats stale wav caching */
   var ctx = null, master = null, limiter = null;
   var buffers = {}, loading = {}, loops = {}, wantLoop = {};
   var fired = {};                   /* timeline cues fired once per page */
@@ -84,7 +84,8 @@
       .then(function(ab){ return ctx.decodeAudioData(ab); })
       .then(function(buf){
         buffers[name] = buf; loading[name] = false;
-        if (wantLoop[name]) { wantLoop[name] = false; startLoop(name); }
+        if (wantLoop[name]) { var lvl = wantLoop[name]; wantLoop[name] = false;
+          startLoop(name, (typeof lvl === 'number') ? lvl : 1.0); }
       })
       .catch(function(e){ loading[name] = false;
         try { console.log('[SOUND] load failed:', name, e && e.message); } catch(_){} });
@@ -100,7 +101,7 @@
         for (var k in FILES) load(k);            /* warm every cue */
       }
       if (ctx.state === 'suspended') ctx.resume();
-      if (!window.EMERGE_HOLD_AMBIENT) startLoop('ambient');   /* the field plays continuously; reveal pages hold it until the tap */
+      if (!window.EMERGE_HOLD_AMBIENT) startLoop('ambient');   /* the field plays continuously; reveal pages hold it until REVEAL MY CHART */
     } catch(_){}
   }
 
@@ -189,17 +190,21 @@
     } catch(_){}
   }
 
-  function startLoop(name){
+  /* level: optional target gain for this loop (default 1.0 preserves the
+     relative-WAV-levels law; used by REVEAL MY CHART to bring the ambient
+     field back a step louder for the reading) */
+  function startLoop(name, level){
     if (name === 'drawbed') return;                        /* retired — the ambient field is the bed */
     if (loops[name]) return;
-    if (!ready() || !buffers[name]) { wantLoop[name] = true; return; }
+    var lvl = (typeof level === 'number') ? level : 1.0;
+    if (!ready() || !buffers[name]) { wantLoop[name] = lvl; return; }
     var n = makeSource(name);
     n.src.loop = true;
     var t = ctx.currentTime;
     var fadeIn = (name === 'music' || name === 'drawbed' || name === 'ambient') ? 4.5 : 0.9;   /* beds drift in, not arrive */
     try {
       n.gain.gain.setValueAtTime(0.0, t);
-      n.gain.gain.linearRampToValueAtTime(1.0, t + fadeIn);
+      n.gain.gain.linearRampToValueAtTime(lvl, t + fadeIn);
       n.src.start(0);
     } catch(_){}
     loops[name] = n;

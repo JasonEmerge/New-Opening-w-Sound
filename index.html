@@ -514,7 +514,7 @@
 
 
 </style>
-<script src="emerge-sound.js?v=20"></script>
+<script src="emerge-sound.js?v=23"></script>
 </head>
 <body>
 <div id="stars"></div>
@@ -642,7 +642,7 @@
   </div>
 </div>
 
-<div id="ver">SCENE 1 · v19.63 · void carries the whisper</div>
+<div id="ver">SCENE 1 · v19.66 · clean handoff</div>
 
 <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
 <script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js"></script>
@@ -2248,25 +2248,22 @@ document.querySelectorAll('.syscard').forEach(card => {
       The calculation animation now belongs to the selected reveal page.
     */
 
-    // v19.63: the void enters AT THE CLICK and carries the whisper HERE, on the
-    // page whose audio is alive — choice bed + ambient breathe out, the void
-    // swells, the sky darkens, "the sky has always been here" speaks over it,
-    // and only then does the page turn. The reveal arrives pre-whispered and
-    // goes straight to tap-to-reveal.
+    // v19.66: clean handoff — the whisper and the void live INSIDE the chosen
+    // reveal file now (that page owns its whole opening). Here the choice bed
+    // and the ambient field simply breathe out to silence, the screen darkens,
+    // and the page turns. The browser's forced audio cut lands on silence, so
+    // there is no chop.
     try { EMERGE_SOUND.stopLoop('choice', 0.6); } catch(_){}
-    try { EMERGE_SOUND.stopLoop('ambient', 0.9); } catch(_){}
-    try { EMERGE_SOUND.loop('voidatm'); } catch(_){}
+    try { EMERGE_SOUND.stopLoop('ambient', 0.8); } catch(_){}
 
     const vc = document.getElementById('voidCarry');
-    vc.classList.add('show');
-    setTimeout(function(){ vc.classList.add('speak'); }, 900);
-    setTimeout(function(){ vc.classList.remove('speak'); }, 4300);
+    vc.classList.add('show');                       /* dark visual exit only — no whisper here */
 
     const next = sys === 'sidereal'
-      ? 'sidereal-reveal.html?v=1932&whispered=1'
-      : 'tropical-reveal.html?v=1839&whispered=1';
-    console.log('[EMERGE FLOW] 10. whisper over the void, then routing:', next);
-    setTimeout(function(){ location.href = next; }, 5300);
+      ? 'sidereal-reveal.html?v=1935'
+      : 'tropical-reveal.html?v=1842';
+    console.log('[EMERGE FLOW] 10. fading out, routing:', next);
+    setTimeout(function(){ location.href = next; }, 1050);
   });
 });
 

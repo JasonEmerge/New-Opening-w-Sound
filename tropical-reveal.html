@@ -572,7 +572,7 @@
   .rp-sum-row h3 { margin:2px 0 7px; }
 
 </style>
-<script src="emerge-sound.js?v=22"></script>
+<script src="emerge-sound.js?v=23"></script>
 </head>
 <body>
 <div id="stage"></div>
@@ -738,7 +738,7 @@ console.log('[EMERGE FLOW] 5. tropical-reveal — system in storage:',
             SAVED && SAVED.system, '| data:', __ok ? 'user birth data' : 'QA fallback');
 console.log('[EMERGE FLOW] 6. calculation branch: TROPICAL — no ayanamsa (true tropical longitudes)');
 document.getElementById('stamp').textContent =
-  'TROPICAL v18.41 void swells · d1 · data:' + ((SAVED && SAVED.system) || 'none');
+  'TROPICAL v18.42 whisper home · d1 · data:' + ((SAVED && SAVED.system) || 'none');
 
 var DEG = Math.PI/180, RAD = 180/Math.PI;
 
@@ -1482,17 +1482,13 @@ function armExistingRevealGate(){
    window as the old timeline beat (in ~0.9s, out ~4.2s).
    ============================================================ */
 (function runOpeningSequence(){
-// v-quick-gate: the whisper now happens on the choice page (where the void
-  // can play continuously). Arriving with ?whispered=1 skips it here and goes
-  // straight to tap-to-reveal; a direct visit keeps the original sequence.
-  var WHISPERED = /(?:\?|&)whispered=1/.test(location.search);
-  if (WHISPERED){
-    window.setTimeout(function(){ armExistingRevealGate(); }, 1000);
-  } else {
-    window.setTimeout(function(){ whisper.classList.add('show'); }, 900);
-    window.setTimeout(function(){ whisper.classList.remove('show'); }, 4200);
-    window.setTimeout(function(){ armExistingRevealGate(); }, 5600);
-  }
+// whisper home: this page owns its whole opening — the index only routes
+  // here. Whisper in ~0.9s, out ~4.2s, tap-to-reveal arms at 5.6s. The void
+  // is this page's waiting bed (starts on the page's first touch — iPhone
+  // allows no sound before that), the ambient field holds until REVEAL MY CHART.
+  window.setTimeout(function(){ whisper.classList.add('show'); }, 900);
+  window.setTimeout(function(){ whisper.classList.remove('show'); }, 4200);
+  window.setTimeout(function(){ armExistingRevealGate(); }, 5600);
 })();
 
 function frame(now){
@@ -2799,7 +2795,7 @@ function startRevealTransition(){
   // Uncle John ambient field begins, continuing throughout from now on.
   window.EMERGE_HOLD_AMBIENT = false;
   try { EMERGE_SOUND.stopLoop('voidatm', 2.0); } catch(_){}
-  try { EMERGE_SOUND.loop('ambient'); } catch(_){}
+  try { EMERGE_SOUND.loop('ambient', 1.4);   /* the field returns a step louder for the reading */ } catch(_){}
   try { EMERGE_SOUND.play('impact'); EMERGE_SOUND.play('ascension'); EMERGE_SOUND.haptic(12); } catch(_){}
   revealBtn.setAttribute('disabled', 'true');
 
