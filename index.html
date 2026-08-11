@@ -631,7 +631,7 @@
   </div>
 </div>
 
-<div id="ver">SCENE 1 · v19.61 · graceful exit</div>
+<div id="ver">SCENE 1 · v19.62 · void at the door</div>
 
 <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
 <script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js"></script>
@@ -2237,16 +2237,17 @@ document.querySelectorAll('.syscard').forEach(card => {
       The calculation animation now belongs to the selected reveal page.
     */
 
-    // v19.61: no abrupt cut — every bed breathes out together, THEN the page turns
+    // v19.62: the void enters AT THE CLICK — the choice bed and ambient breathe
+    // out while the void swells in and carries the turn of the page. No dead cut.
     try { EMERGE_SOUND.stopLoop('choice', 0.6); } catch(_){}
-    try { EMERGE_SOUND.stopLoop('ambient', 0.7); } catch(_){}
-    try { EMERGE_SOUND.stopAll(); } catch(_){}
+    try { EMERGE_SOUND.stopLoop('ambient', 0.9); } catch(_){}
+    try { EMERGE_SOUND.loop('voidatm'); } catch(_){}
 
     const next = sys === 'sidereal'
       ? 'sidereal-reveal.html?v=1931'
       : 'tropical-reveal.html?v=1838';
-    console.log('[EMERGE FLOW] 10. routing to selected reveal after fade:', next);
-    setTimeout(function(){ location.href = next; }, 750);
+    console.log('[EMERGE FLOW] 10. routing to selected reveal, void carrying the turn:', next);
+    setTimeout(function(){ location.href = next; }, 2200);
   });
 });
 
