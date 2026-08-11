@@ -468,6 +468,14 @@
   .gn-sphereArc { position:absolute; left:50%; top:46%; transform:translate(-50%,-50%);
     border:1px solid rgba(214,169,134,.09); border-radius:50%; pointer-events:none; }
   #genesis.show { opacity:1; pointer-events:auto; }
+  /* v19.63: the whisper lives here now, carried by the void before the page turns */
+  #voidCarry { position:fixed; inset:0; z-index:60; background:#04060c;
+    opacity:0; pointer-events:none; transition:opacity .9s ease; }
+  #voidCarry.show { opacity:1; pointer-events:auto; }
+  #vc-whisper { position:absolute; left:0; right:0; top:44%; text-align:center;
+    font-family:Georgia,serif; font-size:15px; letter-spacing:.42em; color:#B08A6E;
+    opacity:0; transition:opacity 2.2s ease; }
+  #voidCarry.speak #vc-whisper { opacity:1; }
   #gn-video { position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
     background:#02020a; }
   #genesis .gn-title { z-index:2; text-shadow:0 2px 14px rgba(0,0,0,.85); }
@@ -622,6 +630,9 @@
     </div>
   </div>
 </div>
+<div id="voidCarry">
+  <div id="vc-whisper">the sky has always been here</div>
+</div>
 <div id="genesis">
   <video id="gn-video" src="calc-sky.mp4" muted playsinline loop preload="none"></video>  <!-- v19.52: genesis bypassed, do not download -->
   <div class="gn-stage" id="gn-stage"></div>
@@ -631,7 +642,7 @@
   </div>
 </div>
 
-<div id="ver">SCENE 1 · v19.62 · void at the door</div>
+<div id="ver">SCENE 1 · v19.63 · void carries the whisper</div>
 
 <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
 <script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js"></script>
@@ -2237,17 +2248,25 @@ document.querySelectorAll('.syscard').forEach(card => {
       The calculation animation now belongs to the selected reveal page.
     */
 
-    // v19.62: the void enters AT THE CLICK — the choice bed and ambient breathe
-    // out while the void swells in and carries the turn of the page. No dead cut.
+    // v19.63: the void enters AT THE CLICK and carries the whisper HERE, on the
+    // page whose audio is alive — choice bed + ambient breathe out, the void
+    // swells, the sky darkens, "the sky has always been here" speaks over it,
+    // and only then does the page turn. The reveal arrives pre-whispered and
+    // goes straight to tap-to-reveal.
     try { EMERGE_SOUND.stopLoop('choice', 0.6); } catch(_){}
     try { EMERGE_SOUND.stopLoop('ambient', 0.9); } catch(_){}
     try { EMERGE_SOUND.loop('voidatm'); } catch(_){}
 
+    const vc = document.getElementById('voidCarry');
+    vc.classList.add('show');
+    setTimeout(function(){ vc.classList.add('speak'); }, 900);
+    setTimeout(function(){ vc.classList.remove('speak'); }, 4300);
+
     const next = sys === 'sidereal'
-      ? 'sidereal-reveal.html?v=1931'
-      : 'tropical-reveal.html?v=1838';
-    console.log('[EMERGE FLOW] 10. routing to selected reveal, void carrying the turn:', next);
-    setTimeout(function(){ location.href = next; }, 2200);
+      ? 'sidereal-reveal.html?v=1932&whispered=1'
+      : 'tropical-reveal.html?v=1839&whispered=1';
+    console.log('[EMERGE FLOW] 10. whisper over the void, then routing:', next);
+    setTimeout(function(){ location.href = next; }, 5300);
   });
 });
 

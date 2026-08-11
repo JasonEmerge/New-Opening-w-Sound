@@ -738,7 +738,7 @@ console.log('[EMERGE FLOW] 5. tropical-reveal — system in storage:',
             SAVED && SAVED.system, '| data:', __ok ? 'user birth data' : 'QA fallback');
 console.log('[EMERGE FLOW] 6. calculation branch: TROPICAL — no ayanamsa (true tropical longitudes)');
 document.getElementById('stamp').textContent =
-  'TROPICAL v18.38 void waits · d1 · data:' + ((SAVED && SAVED.system) || 'none');
+  'TROPICAL v18.39 quick gate · d1 · data:' + ((SAVED && SAVED.system) || 'none');
 
 var DEG = Math.PI/180, RAD = 180/Math.PI;
 
@@ -1483,11 +1483,17 @@ function armExistingRevealGate(){
    window as the old timeline beat (in ~0.9s, out ~4.2s).
    ============================================================ */
 (function runOpeningSequence(){
-  window.setTimeout(function(){ whisper.classList.add('show'); }, 900);
-  window.setTimeout(function(){ whisper.classList.remove('show'); }, 4200);
-  // Arm the gate as the whisper's fade-out completes; gateIn then
-  // brings "tap to reveal" up exactly as it always has.
-  window.setTimeout(function(){ armExistingRevealGate(); }, 5600);
+// v-quick-gate: the whisper now happens on the choice page (where the void
+  // can play continuously). Arriving with ?whispered=1 skips it here and goes
+  // straight to tap-to-reveal; a direct visit keeps the original sequence.
+  var WHISPERED = /(?:\?|&)whispered=1/.test(location.search);
+  if (WHISPERED){
+    window.setTimeout(function(){ armExistingRevealGate(); }, 1000);
+  } else {
+    window.setTimeout(function(){ whisper.classList.add('show'); }, 900);
+    window.setTimeout(function(){ whisper.classList.remove('show'); }, 4200);
+    window.setTimeout(function(){ armExistingRevealGate(); }, 5600);
+  }
 })();
 
 function frame(now){
