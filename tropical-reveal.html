@@ -572,7 +572,7 @@
   .rp-sum-row h3 { margin:2px 0 7px; }
 
 </style>
-<script src="emerge-sound.js?v=21"></script>
+<script src="emerge-sound.js?v=22"></script>
 </head>
 <body>
 <div id="stage"></div>
@@ -738,7 +738,7 @@ console.log('[EMERGE FLOW] 5. tropical-reveal — system in storage:',
             SAVED && SAVED.system, '| data:', __ok ? 'user birth data' : 'QA fallback');
 console.log('[EMERGE FLOW] 6. calculation branch: TROPICAL — no ayanamsa (true tropical longitudes)');
 document.getElementById('stamp').textContent =
-  'TROPICAL v18.40 void all the way · d1 · data:' + ((SAVED && SAVED.system) || 'none');
+  'TROPICAL v18.41 void swells · d1 · data:' + ((SAVED && SAVED.system) || 'none');
 
 var DEG = Math.PI/180, RAD = 180/Math.PI;
 
@@ -2212,6 +2212,9 @@ var parallax = { tx:0, ty:0, rx:0, ry:0 };
 
 function onChartRevealComplete(){
   window.dispatchEvent(new CustomEvent('EMERGE_CHART_REVEAL_COMPLETE'));
+  // the drawing's one-shots have ended — the void asserts itself as the button
+  // appears, so the bed is unmistakably still there until REVEAL MY CHART.
+  try { EMERGE_SOUND.swell('voidatm', 1.7, 1.4); } catch(_){}
   setTimeout(function(){ promptEl.classList.add('show'); }, 1200);
 }
 

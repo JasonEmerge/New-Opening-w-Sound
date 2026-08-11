@@ -1,5 +1,5 @@
 /* ==================================================================
-   EMERGE_SOUND — Final Sound System V4 engine (e21, void all the way)
+   EMERGE_SOUND — Final Sound System V4 engine (e22, void swells at the button)
    ------------------------------------------------------------------
    Sonic law (locked): low-register, physical, dark, restrained, dry,
    spatial. No pitch sweeps. Movement expressed via gain / density /
@@ -55,7 +55,7 @@
   var DUCKS   = { harmony:1, arrival:1, impact:1, fold:1, ascension:1 };
 
   var AUDIO_VER = '16';
-  var ENGINE_VER = '21';   /* bump on ANY wav content change — defeats stale wav caching */
+  var ENGINE_VER = '22';   /* bump on ANY wav content change — defeats stale wav caching */
   var ctx = null, master = null, limiter = null;
   var buffers = {}, loading = {}, loops = {}, wantLoop = {};
   var fired = {};                   /* timeline cues fired once per page */
@@ -222,6 +222,20 @@
     } catch(_){}
   }
 
+  /* gently raise (or settle) a running loop in place — the bed asserts itself */
+  function swell(name, mult, secs){
+    var n = loops[name];
+    if (!n || !ctx) return;
+    var m = (typeof mult === 'number') ? mult : 1.5;
+    var s = (typeof secs === 'number') ? secs : 1.2;
+    try {
+      var t = ctx.currentTime;
+      n.gain.gain.cancelScheduledValues(t);
+      n.gain.gain.setValueAtTime(n.gain.gain.value, t);
+      n.gain.gain.linearRampToValueAtTime(m, t + s);
+    } catch(_){}
+  }
+
   function stopAll(){
     for (var k in loops) if (loops[k] && k !== 'ambient') stopLoop(k, 0.35);
   }
@@ -266,7 +280,7 @@
 
   window.EMERGE_SOUND = {
     unlock: unlock, play: play, grain: grain,
-    loop: startLoop, stopLoop: stopLoop, stopAll: stopAll,
+    loop: startLoop, stopLoop: stopLoop, stopAll: stopAll, swell: swell,
     motion: motion, tick: tick, haptic: haptic, numpulse: numpulse, status: status
   };
 })();
