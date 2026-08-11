@@ -584,7 +584,7 @@
   .rp-sum-row h3 { margin:2px 0 7px; }
 
 </style>
-<script src="emerge-sound.js?v=20"></script>
+<script src="emerge-sound.js?v=21"></script>
 </head>
 <body>
 <div id="stage"></div>
@@ -749,7 +749,7 @@ var BIRTH = __ok ? {
 console.log('[EMERGE FLOW] 5. sidereal-reveal — system in storage:',
             SAVED && SAVED.system, '| data:', __ok ? 'user birth data' : 'QA fallback');
 document.getElementById('stamp').textContent =
-  'SIDEREAL v19.32 quick gate · LAHIRI · d1 · data:' + ((SAVED && SAVED.system) || 'none');
+  'SIDEREAL v19.33 void all the way · LAHIRI · d1 · data:' + ((SAVED && SAVED.system) || 'none');
 
 var DEG = Math.PI/180, RAD = 180/Math.PI;
 
@@ -1379,10 +1379,9 @@ function beginChartRevealFromTap(){
   if (!revealGateArmed){ return; }
   revealGateArmed = false;
   try { EMERGE_SOUND.unlock(); } catch(_){}
-  // the tap: void breathes out, the ambient field takes over underneath
-  window.EMERGE_HOLD_AMBIENT = false;
-  try { EMERGE_SOUND.stopLoop('voidatm', 1.5); } catch(_){}
-  try { EMERGE_SOUND.loop('ambient'); } catch(_){}
+  // the tap: the VOID rises and stays as the bed for the whole chart drawing;
+  // the ambient field keeps holding until REVEAL MY CHART.
+  try { EMERGE_SOUND.loop('voidatm'); } catch(_){}
   t0 = performance.now();
   var g = document.getElementById('soundGate');
   if (g){
@@ -2746,6 +2745,11 @@ function finishRevealTransition(fadeMs){
 function startRevealTransition(){
   if (resultOpened || chartSummaryRevealStarted) return;
   chartSummaryRevealStarted = true;
+  // REVEAL MY CHART: the void's journey ends here — it breathes out and the
+  // Uncle John ambient field begins, continuing throughout from now on.
+  window.EMERGE_HOLD_AMBIENT = false;
+  try { EMERGE_SOUND.stopLoop('voidatm', 2.0); } catch(_){}
+  try { EMERGE_SOUND.loop('ambient'); } catch(_){}
   try { EMERGE_SOUND.play('impact'); EMERGE_SOUND.play('ascension'); EMERGE_SOUND.haptic(12); } catch(_){}
   revealBtn.setAttribute('disabled', 'true');
 

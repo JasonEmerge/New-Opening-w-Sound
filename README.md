@@ -1,30 +1,26 @@
-# CozAlyze — Fresh Repo Deploy (e20, void waits at the reveal)
+# CozAlyze — Void All The Way (e21)
 
-Stamps: SCENE 1 v19.61 graceful exit, SIDEREAL v19.31 void waits,
-TROPICAL v18.38 void waits. Routes ?v=1931 / ?v=1838. Engine ?v=20.
+Stamps: SCENE 1 v19.64 void all the way, SIDEREAL v19.33, TROPICAL v18.40.
+Routes ?v=1933&whispered=1 / ?v=1840&whispered=1. Engine ?v=21, AUDIO_VER 16.
 
-CHANGED vs the set you just uploaded (5 files to swap in):
-  emerge-sound.js            (e20)
-  index.html                 (v19.61)
-  sidereal-reveal.html       (v19.31)
-  tropical-reveal.html       (v18.38)
-  01b_void_atmosphere.wav    (NEW — the void returns for one moment)
+SWAP INTO THE REPO (5 files):
+  emerge-sound.js            (e21)
+  index.html                 (v19.64)
+  sidereal-reveal.html       (v19.33)
+  tropical-reveal.html       (v18.40)
+  01c_void_atmosphere.wav    (void lowered slightly — peak -11.9, more background)
 
-Everything else in the new repo stays exactly as uploaded.
+DELETE from the repo: 01b_void_atmosphere.wav (superseded by 01c) and
+09_location_found.wav (cue removed entirely — selecting a birthplace is silent).
 
-What changed:
-- Card tap no longer cuts the sound dead: choice bed and ambient field breathe
-  out together over ~0.7s, THEN the page turns. No abrupt silence.
-- The reveal waiting screen ("the sky has always been here / tap to reveal")
-  now plays the void atmosphere as its bed — the ambient field holds back.
-- The reveal tap: void fades out over 1.5s, the ambient field rises underneath,
-  and the chart timeline plays over it. Exactly: void while waiting, tap,
-  back into the ambience.
+THE SOUND JOURNEY NOW:
+  choice click  -> choice bed + ambient breathe out, VOID rises
+  whisper       -> "the sky has always been here" over the void (on the choice page)
+  page turn     -> void breathes out over the last half-second (no hard chop);
+                   the turn itself is the one silence the browser forces
+  tap to reveal -> VOID rises again and stays as the bed for the entire
+                   chart drawing
+  REVEAL MY CHART -> void breathes out (2s), the Uncle John ambient field
+                   begins and continues throughout from here on
 
-iPhone note (Apple's rule, same as always): a page can't make sound until it
-has been touched once. So on iPhone the void begins at the first touch of the
-reveal screen — a touch in the first ~5s (before the gate arms) starts the
-void while the person keeps waiting; a touch after that goes straight into
-the reveal. On desktop the void plays the waiting screen from the start.
-
-Verify stamps v19.61 / v19.31 / v18.38 before judging.
+Verify stamps v19.64 / v19.33 / v18.40 before judging.

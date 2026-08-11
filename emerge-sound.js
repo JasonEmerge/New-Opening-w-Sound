@@ -1,11 +1,16 @@
 /* ==================================================================
-   EMERGE_SOUND — Final Sound System V4 engine (e20, void waits at the reveal)
+   EMERGE_SOUND — Final Sound System V4 engine (e21, void all the way)
    ------------------------------------------------------------------
    Sonic law (locked): low-register, physical, dark, restrained, dry,
    spatial. No pitch sweeps. Movement expressed via gain / density /
    stereo only. Relative WAV levels are preserved — every cue plays
    at gain 1.0; the master limiter exists strictly to guard against
    stacking, never to reshape a single cue.
+   e21: the void is the JOURNEY bed — from the chart-choice click through
+   the whole chart drawing, ending only at REVEAL MY CHART, where the
+   ambient field takes over for good. Void lowered slightly (01c, -11.9
+   peak, more in the background). Location-found cue (09) removed — its
+   call sites are silent no-ops.
    e20: the void returns for ONE moment — the reveal waiting screen
    ('the sky has always been here / tap to reveal') plays 01b as its bed;
    pages can set window.EMERGE_HOLD_AMBIENT so the field waits until the
@@ -29,13 +34,12 @@
 
   var FILES = {
     ambient:      'UNCLE_JOHN_FIELD_LOOP.wav',  /* continuous quiet field under everything */
-    voidatm:      '01b_void_atmosphere.wav',     /* the reveal waiting bed — 'the sky has always been here' */
+    voidatm:      '01c_void_atmosphere.wav',     /* the journey bed — choice click through the chart drawing (slightly lowered) */
     fold:         '03d_vacuum_fold.wav',
     tap:          '23_tap_boom.wav',    /* single boom — the tap is one soft pulse */
     growth:       '06_earth_growth_no_rising_tone.wav',
     arrival:      '07_earth_arrival.wav',
     orbit:        '08_earth_rotation_silent_orbit_FINAL.wav',
-    found:        '09_location_found.wav',
     harmony:      '11_birth_data_complete_fixed_harmony.wav',
     calc:         '12b_calculation.wav',
     construction: '14_b_magnetic_construction.wav',
@@ -48,10 +52,10 @@
   };
   var IS_LOOP = { ambient:1, voidatm:1, orbit:1, calc:1, hum:1, choice:1 };
   /* one-shots that briefly duck the void bed so they read clearly */
-  var DUCKS   = { found:1, harmony:1, arrival:1, impact:1, fold:1, ascension:1 };
+  var DUCKS   = { harmony:1, arrival:1, impact:1, fold:1, ascension:1 };
 
-  var AUDIO_VER = '15';
-  var ENGINE_VER = '20';   /* bump on ANY wav content change — defeats stale wav caching */
+  var AUDIO_VER = '16';
+  var ENGINE_VER = '21';   /* bump on ANY wav content change — defeats stale wav caching */
   var ctx = null, master = null, limiter = null;
   var buffers = {}, loading = {}, loops = {}, wantLoop = {};
   var fired = {};                   /* timeline cues fired once per page */
