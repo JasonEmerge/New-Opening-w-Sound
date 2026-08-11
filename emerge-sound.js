@@ -1,11 +1,15 @@
 /* ==================================================================
-   EMERGE_SOUND — Final Sound System V4 engine (e19, void retired)
+   EMERGE_SOUND — Final Sound System V4 engine (e20, void waits at the reveal)
    ------------------------------------------------------------------
    Sonic law (locked): low-register, physical, dark, restrained, dry,
    spatial. No pitch sweeps. Movement expressed via gain / density /
    stereo only. Relative WAV levels are preserved — every cue plays
    at gain 1.0; the master limiter exists strictly to guard against
    stacking, never to reshape a single cue.
+   e20: the void returns for ONE moment — the reveal waiting screen
+   ('the sky has always been here / tap to reveal') plays 01b as its bed;
+   pages can set window.EMERGE_HOLD_AMBIENT so the field waits until the
+   tap, then void fades and the field takes over. drawbed stays retired.
    e19: void bed + drawbed RETIRED per Jason — the ambient field is the
    one bed everywhere; their cue names remain as silent no-ops so no call
    site ever throws.
@@ -25,6 +29,7 @@
 
   var FILES = {
     ambient:      'UNCLE_JOHN_FIELD_LOOP.wav',  /* continuous quiet field under everything */
+    voidatm:      '01b_void_atmosphere.wav',     /* the reveal waiting bed — 'the sky has always been here' */
     fold:         '03d_vacuum_fold.wav',
     tap:          '23_tap_boom.wav',    /* single boom — the tap is one soft pulse */
     growth:       '06_earth_growth_no_rising_tone.wav',
@@ -41,12 +46,12 @@
     choice:       '19_two_perspectives.wav',
     ascension:    '20_ascension_final.wav'
   };
-  var IS_LOOP = { ambient:1, orbit:1, calc:1, hum:1, choice:1 };
+  var IS_LOOP = { ambient:1, voidatm:1, orbit:1, calc:1, hum:1, choice:1 };
   /* one-shots that briefly duck the void bed so they read clearly */
   var DUCKS   = { found:1, harmony:1, arrival:1, impact:1, fold:1, ascension:1 };
 
   var AUDIO_VER = '15';
-  var ENGINE_VER = '19';   /* bump on ANY wav content change — defeats stale wav caching */
+  var ENGINE_VER = '20';   /* bump on ANY wav content change — defeats stale wav caching */
   var ctx = null, master = null, limiter = null;
   var buffers = {}, loading = {}, loops = {}, wantLoop = {};
   var fired = {};                   /* timeline cues fired once per page */
@@ -91,7 +96,7 @@
         for (var k in FILES) load(k);            /* warm every cue */
       }
       if (ctx.state === 'suspended') ctx.resume();
-      startLoop('ambient');               /* the field plays continuously on every page */
+      if (!window.EMERGE_HOLD_AMBIENT) startLoop('ambient');   /* the field plays continuously; reveal pages hold it until the tap */
     } catch(_){}
   }
 
@@ -181,7 +186,7 @@
   }
 
   function startLoop(name){
-    if (name === 'voidatm' || name === 'drawbed') return;  /* retired — the ambient field is the bed */
+    if (name === 'drawbed') return;                        /* retired — the ambient field is the bed */
     if (loops[name]) return;
     if (!ready() || !buffers[name]) { wantLoop[name] = true; return; }
     var n = makeSource(name);

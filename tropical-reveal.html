@@ -572,7 +572,7 @@
   .rp-sum-row h3 { margin:2px 0 7px; }
 
 </style>
-<script src="emerge-sound.js?v=19"></script>
+<script src="emerge-sound.js?v=20"></script>
 </head>
 <body>
 <div id="stage"></div>
@@ -738,7 +738,7 @@ console.log('[EMERGE FLOW] 5. tropical-reveal — system in storage:',
             SAVED && SAVED.system, '| data:', __ok ? 'user birth data' : 'QA fallback');
 console.log('[EMERGE FLOW] 6. calculation branch: TROPICAL — no ayanamsa (true tropical longitudes)');
 document.getElementById('stamp').textContent =
-  'TROPICAL v18.37 void retired · d1 · data:' + ((SAVED && SAVED.system) || 'none');
+  'TROPICAL v18.38 void waits · d1 · data:' + ((SAVED && SAVED.system) || 'none');
 
 var DEG = Math.PI/180, RAD = 180/Math.PI;
 
@@ -1446,10 +1446,18 @@ var T = {
 var t0 = null;
 var revealGateArmed = false;
 
+// v-void-waits: the waiting screen plays the void; the field holds until the tap
+window.EMERGE_HOLD_AMBIENT = true;
+try { EMERGE_SOUND.loop('voidatm'); } catch(_){}
+
 function beginChartRevealFromTap(){
   if (!revealGateArmed){ return; }
   revealGateArmed = false;
   try { EMERGE_SOUND.unlock(); } catch(_){}
+  // the tap: void breathes out, the ambient field takes over underneath
+  window.EMERGE_HOLD_AMBIENT = false;
+  try { EMERGE_SOUND.stopLoop('voidatm', 1.5); } catch(_){}
+  try { EMERGE_SOUND.loop('ambient'); } catch(_){}
   t0 = performance.now();
   var g = document.getElementById('soundGate');
   if (g){
