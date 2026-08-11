@@ -1,11 +1,17 @@
 /* ==================================================================
-   EMERGE_SOUND — Final Sound System V4 engine (e24, living page)
+   EMERGE_SOUND — Final Sound System V4 engine (e26, cue lift 2)
    ------------------------------------------------------------------
    Sonic law (locked): low-register, physical, dark, restrained, dry,
    spatial. No pitch sweeps. Movement expressed via gain / density /
    stereo only. Relative WAV levels are preserved — every cue plays
    at gain 1.0; the master limiter exists strictly to guard against
    stacking, never to reshape a single cue.
+   e26: cue lift 2 — construction (14) and sweep (15) raised again to
+   +3 dB over the originals (double the e25 step) under 14_d / 15c.
+   e25: cue lift — seven one-shot/bed cues raised +1.5 dB (~15%) per
+   Jason under NEW filenames (14_c, 15b, 16_c, 17b, 19b, 20b, 23b) so
+   no cached copy can play: construction, sweep, tokens, impact, choice
+   bed, ascension, tap boom. Relative-levels law otherwise intact.
    e24: living page — the index no longer navigates away at the card
    click; it starts the void on its own (already unlocked) context and
    displays the chosen reveal file in a fullscreen iframe. A one-line
@@ -45,26 +51,26 @@
     ambient:      'UNCLE_JOHN_FIELD_LOOP.wav',  /* continuous quiet field under everything */
     voidatm:      '01c_void_atmosphere.wav',     /* the journey bed — reveal-page first touch through the chart drawing */
     fold:         '03d_vacuum_fold.wav',
-    tap:          '23_tap_boom.wav',    /* single boom — the tap is one soft pulse */
+    tap:          '23b_tap_boom.wav',    /* single boom — the tap is one soft pulse */
     growth:       '06_earth_growth_no_rising_tone.wav',
     arrival:      '07_earth_arrival.wav',
     orbit:        '08_earth_rotation_silent_orbit_FINAL.wav',
     harmony:      '11_birth_data_complete_fixed_harmony.wav',
     calc:         '12b_calculation.wav',
-    construction: '14_b_magnetic_construction.wav',
-    sweep:        '15_fast_screen_sweep_FINAL.wav',
-    tokens:       '16_b_unified_planet_tokens.wav',
-    impact:       '17_final_reveal_clean_impact.wav',
+    construction: '14_d_magnetic_construction.wav',
+    sweep:        '15c_fast_screen_sweep.wav',
+    tokens:       '16_c_unified_planet_tokens.wav',
+    impact:       '17b_final_reveal_clean_impact.wav',
     hum:          '18_reading_hum_plus_20.wav',
-    choice:       '19_two_perspectives.wav',
-    ascension:    '20_ascension_final.wav'
+    choice:       '19b_two_perspectives.wav',
+    ascension:    '20b_ascension_final.wav'
   };
   var IS_LOOP = { ambient:1, voidatm:1, orbit:1, calc:1, hum:1, choice:1 };
   /* one-shots that briefly duck the void bed so they read clearly */
   var DUCKS   = { harmony:1, arrival:1, impact:1, fold:1, ascension:1 };
 
-  var AUDIO_VER = '16';
-  var ENGINE_VER = '24';   /* bump on ANY wav content change — defeats stale wav caching */
+  var AUDIO_VER = '18';
+  var ENGINE_VER = '26';   /* bump on ANY wav content change — defeats stale wav caching */
   var ctx = null, master = null, limiter = null;
   var buffers = {}, loading = {}, loops = {}, wantLoop = {};
   var fired = {};                   /* timeline cues fired once per page */

@@ -1,38 +1,24 @@
-# CozAlyze — Living Page (e24)
+# CozAlyze — Cue Lift 2 (e26)
 
-Stamps: SCENE 1 v19.67 living page, SIDEREAL v19.36, TROPICAL v18.43.
-Reveal routes ?v=1936 / ?v=1843 (loaded in place, not navigated to).
-Engine ?v=24, AUDIO_VER 16.
+Stamps: SCENE 1 v19.69 cue lift 2, SIDEREAL v19.38, TROPICAL v18.45.
+Reveal routes ?v=1938 / ?v=1845. Engine ?v=26, AUDIO_VER 18.
 
-SWAP INTO THE REPO (4 files):
-  emerge-sound.js            (e24)
-  index.html                 (v19.67)
-  sidereal-reveal.html       (v19.36)
-  tropical-reveal.html       (v18.43)
+Construction (14) and sweep (15) raised AGAIN — now +3 dB over the
+originals, double the first lift. The other five cues stay at their
+e25 +1.5 dB versions.
 
-No wav changes.
+SWAP INTO THE REPO (6 files):
+  emerge-sound.js                  (e26)
+  index.html                       (v19.69)
+  sidereal-reveal.html             (v19.38)
+  tropical-reveal.html             (v18.45)
+  14_d_magnetic_construction.wav   (+3 dB, peak -9.5)
+  15c_fast_screen_sweep.wav        (+3 dB, peak -33.0)
 
-WHAT CHANGED:
-The browser never leaves the index page anymore. Tapping the Tropical or
-Sidereal card displays the chosen reveal file on top of the index, whose
-audio has been alive since the very first tap of the experience. A one-line
-shim inside each reveal file adopts that living engine. Apple's rule (no
-sound on a freshly loaded page until it is touched) no longer applies,
-because no page is freshly loaded.
+DELETE from the repo: 14_c_magnetic_construction.wav and
+15b_fast_screen_sweep.wav (superseded).
 
-THE SOUND JOURNEY NOW:
-  card click      -> choice bed + ambient breathe out, the VOID begins
-                     immediately and the reveal file appears
-  reveal opens    -> void already playing under its very first frame;
-                     "the sky has always been here" whispers over it,
-                     "tap to reveal" arms
-  tap to reveal   -> void continues as the bed for the entire chart
-                     drawing, swelling as REVEAL MY CHART appears
-  REVEAL MY CHART -> void breathes out (2s), the Uncle John ambient field
-                     begins at 1.4x — clearly audible under the reading —
-                     and continues throughout from here on
+Assumes the e25 package is deployed (14_c/15b live now; the other
+five e25 wavs 16_c / 17b / 19b / 20b / 23b stay).
 
-Direct visits to a reveal URL (bookmarks, testing a file alone) still work:
-the file builds its own engine and sounds from its first touch.
-
-Verify stamps v19.67 / v19.36 / v18.43 and "snd e24" before judging.
+Verify stamps v19.69 / v19.38 / v18.45 and "snd e26" before judging.
