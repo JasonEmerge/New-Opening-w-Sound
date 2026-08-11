@@ -1,24 +1,21 @@
-# CozAlyze — Cue Lift 2 (e26)
+# CozAlyze — Pricing Finale (Sidereal fix)
 
-Stamps: SCENE 1 v19.69 cue lift 2, SIDEREAL v19.38, TROPICAL v18.45.
-Reveal routes ?v=1938 / ?v=1845. Engine ?v=26, AUDIO_VER 18.
+Stamps: SCENE 1 v19.70 pricing finale route, SIDEREAL v19.39, TROPICAL v18.45.
+Reveal routes ?v=1939 / ?v=1845. Engine unchanged (e26, ?v=26, AUDIO_VER 18).
 
-Construction (14) and sweep (15) raised AGAIN — now +3 dB over the
-originals, double the first lift. The other five cues stay at their
-e25 +1.5 dB versions.
+THE 404 FIX:
+The Sidereal payment click was navigating to ascendant.html — a file that
+does not exist in this repo. That navigation is retired. Sidereal now ends
+exactly like Tropical: the payment click sinks the reading away and the
+pricing page (pricing.jpg) rises in as the finale. Nothing navigates, so
+nothing can 404, and the sound continues untouched.
 
-SWAP INTO THE REPO (6 files):
-  emerge-sound.js                  (e26)
-  index.html                       (v19.69)
-  sidereal-reveal.html             (v19.38)
-  tropical-reveal.html             (v18.45)
-  14_d_magnetic_construction.wav   (+3 dB, peak -9.5)
-  15c_fast_screen_sweep.wav        (+3 dB, peak -33.0)
+SWAP INTO THE REPO (2 files):
+  index.html             (v19.70 — route bump only)
+  sidereal-reveal.html   (v19.39)
 
-DELETE from the repo: 14_c_magnetic_construction.wav and
-15b_fast_screen_sweep.wav (superseded).
+Everything else stays as deployed (e26 engine, tropical v18.45, all wavs).
+pricing.jpg must be in the repo root — it already is if the Tropical
+pricing page worked.
 
-Assumes the e25 package is deployed (14_c/15b live now; the other
-five e25 wavs 16_c / 17b / 19b / 20b / 23b stay).
-
-Verify stamps v19.69 / v19.38 / v18.45 and "snd e26" before judging.
+Verify stamps v19.70 / v19.39 and the payment click on the SIDEREAL path.
