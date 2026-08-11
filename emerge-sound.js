@@ -1,11 +1,19 @@
 /* ==================================================================
-   EMERGE_SOUND — Final Sound System V4 engine (e23, whisper home)
+   EMERGE_SOUND — Final Sound System V4 engine (e24, living page)
    ------------------------------------------------------------------
    Sonic law (locked): low-register, physical, dark, restrained, dry,
    spatial. No pitch sweeps. Movement expressed via gain / density /
    stereo only. Relative WAV levels are preserved — every cue plays
    at gain 1.0; the master limiter exists strictly to guard against
    stacking, never to reshape a single cue.
+   e24: living page — the index no longer navigates away at the card
+   click; it starts the void on its own (already unlocked) context and
+   displays the chosen reveal file in a fullscreen iframe. A one-line
+   shim in the reveal files adopts the parent's engine, so every reveal
+   cue plays on audio that has been alive since the card tap: sound from
+   the reveal's very first frame, unbroken until REVEAL MY CHART, on
+   iPhone too. Direct visits to a reveal URL still build their own
+   engine and obey the first-touch rule.
    e23: startLoop accepts a level — the ambient field returns a step
    louder (1.4) at REVEAL MY CHART so the reading music is clearly
    audible. The index no longer whispers or carries the void; each
@@ -31,6 +39,7 @@
    ================================================================== */
 (function(){
   'use strict';
+  if (window.EMERGE_SOUND) return;   /* e24: inside the living-page iframe the parent's engine is already installed by the shim — never build a second (locked) one */
 
   var FILES = {
     ambient:      'UNCLE_JOHN_FIELD_LOOP.wav',  /* continuous quiet field under everything */
@@ -55,7 +64,7 @@
   var DUCKS   = { harmony:1, arrival:1, impact:1, fold:1, ascension:1 };
 
   var AUDIO_VER = '16';
-  var ENGINE_VER = '23';   /* bump on ANY wav content change — defeats stale wav caching */
+  var ENGINE_VER = '24';   /* bump on ANY wav content change — defeats stale wav caching */
   var ctx = null, master = null, limiter = null;
   var buffers = {}, loading = {}, loops = {}, wantLoop = {};
   var fired = {};                   /* timeline cues fired once per page */

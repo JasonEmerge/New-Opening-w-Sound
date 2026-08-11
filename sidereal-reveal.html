@@ -584,7 +584,11 @@
   .rp-sum-row h3 { margin:2px 0 7px; }
 
 </style>
-<script src="emerge-sound.js?v=23"></script>
+<script>/* living page: when displayed inside the index, adopt its already-running engine
+   so sound is alive from this file's very first frame (same-origin) */
+try { if (window.parent !== window && window.parent.EMERGE_SOUND) window.EMERGE_SOUND = window.parent.EMERGE_SOUND; } catch(_){}
+</script>
+<script src="emerge-sound.js?v=24"></script>
 </head>
 <body>
 <div id="stage"></div>
@@ -749,7 +753,7 @@ var BIRTH = __ok ? {
 console.log('[EMERGE FLOW] 5. sidereal-reveal — system in storage:',
             SAVED && SAVED.system, '| data:', __ok ? 'user birth data' : 'QA fallback');
 document.getElementById('stamp').textContent =
-  'SIDEREAL v19.35 whisper home · LAHIRI · d1 · data:' + ((SAVED && SAVED.system) || 'none');
+  'SIDEREAL v19.36 living page · LAHIRI · d1 · data:' + ((SAVED && SAVED.system) || 'none');
 
 var DEG = Math.PI/180, RAD = 180/Math.PI;
 

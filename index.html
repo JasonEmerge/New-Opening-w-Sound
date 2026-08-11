@@ -514,7 +514,7 @@
 
 
 </style>
-<script src="emerge-sound.js?v=23"></script>
+<script src="emerge-sound.js?v=24"></script>
 </head>
 <body>
 <div id="stars"></div>
@@ -642,7 +642,7 @@
   </div>
 </div>
 
-<div id="ver">SCENE 1 · v19.66 · clean handoff</div>
+<div id="ver">SCENE 1 · v19.67 · living page</div>
 
 <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
 <script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js"></script>
@@ -2248,22 +2248,32 @@ document.querySelectorAll('.syscard').forEach(card => {
       The calculation animation now belongs to the selected reveal page.
     */
 
-    // v19.66: clean handoff — the whisper and the void live INSIDE the chosen
-    // reveal file now (that page owns its whole opening). Here the choice bed
-    // and the ambient field simply breathe out to silence, the screen darkens,
-    // and the page turns. The browser's forced audio cut lands on silence, so
-    // there is no chop.
+    // v19.67: living page — the browser never navigates away, so this page's
+    // unlocked audio stays alive. The void begins AT THIS CLICK and plays
+    // unbroken through the reveal's whisper, tap-to-reveal, and the entire
+    // chart drawing (until REVEAL MY CHART hands over to the ambient field).
+    // The chosen reveal file is displayed in a fullscreen iframe on top; a
+    // shim inside it adopts this page's engine, so every one of its cues
+    // sounds from its very first frame — on iPhone too.
     try { EMERGE_SOUND.stopLoop('choice', 0.6); } catch(_){}
     try { EMERGE_SOUND.stopLoop('ambient', 0.8); } catch(_){}
+    try { EMERGE_SOUND.loop('voidatm'); } catch(_){}
 
     const vc = document.getElementById('voidCarry');
-    vc.classList.add('show');                       /* dark visual exit only — no whisper here */
+    vc.classList.add('show');                       /* dark base while the reveal loads */
 
     const next = sys === 'sidereal'
-      ? 'sidereal-reveal.html?v=1935'
-      : 'tropical-reveal.html?v=1842';
-    console.log('[EMERGE FLOW] 10. fading out, routing:', next);
-    setTimeout(function(){ location.href = next; }, 1050);
+      ? 'sidereal-reveal.html?v=1936'
+      : 'tropical-reveal.html?v=1843';
+    console.log('[EMERGE FLOW] 10. living page — loading reveal in place:', next);
+    const fr = document.createElement('iframe');
+    fr.id = 'revealFrame';
+    fr.src = next;
+    fr.setAttribute('scrolling', 'yes');
+    fr.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;border:0;'
+      + 'background:#000;z-index:80;opacity:0;transition:opacity 0.9s ease;';
+    fr.addEventListener('load', function(){ fr.style.opacity = '1'; });
+    document.body.appendChild(fr);
   });
 });
 

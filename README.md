@@ -1,26 +1,38 @@
-# CozAlyze — Void All The Way (e21)
+# CozAlyze — Living Page (e24)
 
-Stamps: SCENE 1 v19.64 void all the way, SIDEREAL v19.33, TROPICAL v18.40.
-Routes ?v=1933&whispered=1 / ?v=1840&whispered=1. Engine ?v=21, AUDIO_VER 16.
+Stamps: SCENE 1 v19.67 living page, SIDEREAL v19.36, TROPICAL v18.43.
+Reveal routes ?v=1936 / ?v=1843 (loaded in place, not navigated to).
+Engine ?v=24, AUDIO_VER 16.
 
-SWAP INTO THE REPO (5 files):
-  emerge-sound.js            (e21)
-  index.html                 (v19.64)
-  sidereal-reveal.html       (v19.33)
-  tropical-reveal.html       (v18.40)
-  01c_void_atmosphere.wav    (void lowered slightly — peak -11.9, more background)
+SWAP INTO THE REPO (4 files):
+  emerge-sound.js            (e24)
+  index.html                 (v19.67)
+  sidereal-reveal.html       (v19.36)
+  tropical-reveal.html       (v18.43)
 
-DELETE from the repo: 01b_void_atmosphere.wav (superseded by 01c) and
-09_location_found.wav (cue removed entirely — selecting a birthplace is silent).
+No wav changes.
+
+WHAT CHANGED:
+The browser never leaves the index page anymore. Tapping the Tropical or
+Sidereal card displays the chosen reveal file on top of the index, whose
+audio has been alive since the very first tap of the experience. A one-line
+shim inside each reveal file adopts that living engine. Apple's rule (no
+sound on a freshly loaded page until it is touched) no longer applies,
+because no page is freshly loaded.
 
 THE SOUND JOURNEY NOW:
-  choice click  -> choice bed + ambient breathe out, VOID rises
-  whisper       -> "the sky has always been here" over the void (on the choice page)
-  page turn     -> void breathes out over the last half-second (no hard chop);
-                   the turn itself is the one silence the browser forces
-  tap to reveal -> VOID rises again and stays as the bed for the entire
-                   chart drawing
+  card click      -> choice bed + ambient breathe out, the VOID begins
+                     immediately and the reveal file appears
+  reveal opens    -> void already playing under its very first frame;
+                     "the sky has always been here" whispers over it,
+                     "tap to reveal" arms
+  tap to reveal   -> void continues as the bed for the entire chart
+                     drawing, swelling as REVEAL MY CHART appears
   REVEAL MY CHART -> void breathes out (2s), the Uncle John ambient field
-                   begins and continues throughout from here on
+                     begins at 1.4x — clearly audible under the reading —
+                     and continues throughout from here on
 
-Verify stamps v19.64 / v19.33 / v18.40 before judging.
+Direct visits to a reveal URL (bookmarks, testing a file alone) still work:
+the file builds its own engine and sounds from its first touch.
+
+Verify stamps v19.67 / v19.36 / v18.43 and "snd e24" before judging.
